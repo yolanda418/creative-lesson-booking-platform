@@ -1,4 +1,4 @@
-﻿# Creative Lesson Booking Platform
+# Creative Lesson Booking Platform
 
 ### 琴小助
 
@@ -94,7 +94,7 @@ Browser
 - Uses the official `openai` Node SDK against OpenRouter's
   `https://openrouter.ai/api/v1` base URL
 - Model is configurable via `OPENROUTER_MODEL` (default:
-  `openrouter/free`)
+  `google/gemini-2.5-flash-lite`)
 - API key is read from `OPENROUTER_API_KEY`; never logged, never sent
   to the browser
 - If the upstream call fails or the reply is empty, the browser falls
@@ -184,7 +184,7 @@ copy .env.example .env # Windows
 
 ```env
 OPENROUTER_API_KEY=your_openrouter_api_key_here
-OPENROUTER_MODEL=openrouter/free   # optional, defaults to openrouter/free
+OPENROUTER_MODEL=google/gemini-2.5-flash-lite   # default; override to test other models
 ```
 
 > Get an API key from <https://openrouter.ai/keys>. Never commit `.env`.
@@ -235,8 +235,7 @@ when preparing a release.
 
 ## Roadmap
 
-- Switch to a stable, fixed model configuration (currently defaults to
-  `openrouter/free` for easy evaluation)
+- Use a stable, fixed model configuration (now defaults to `google/gemini-2.5-flash-lite` for production consistency)
 - Expand the AI knowledge base (piano, art) as those courses come online
 - Better multilingual support for the AI assistant
 - Optional admin workflow for the studio (no DB dependency)

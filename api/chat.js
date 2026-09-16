@@ -9,7 +9,7 @@
  *
  * 环境变量：
  *   OPENROUTER_API_KEY     必填，从 Vercel / 本地 .env 读取，永不入库
- *   OPENROUTER_MODEL       可选，默认 openrouter/free
+ *   OPENROUTER_MODEL       可选，默认 google/gemini-2.5-flash-lite
  *   OPENROUTER_REFERER     可选，OpenRouter 推荐透传的 Referer header
  *   OPENROUTER_APP_NAME    可选，OpenRouter 推荐透传的 X-Title header
  *
@@ -49,9 +49,15 @@ const SYSTEM_PROMPT = `你是"琴小助"的 AI 课程咨询助手。
 必要时可以使用换行来组织信息，但避免使用 markdown 标题、列表符号或代码块等富文本格式。
 
 回答尽量控制在 150-300 中文字左右，优先简洁、完整、可执行。
-不要在回复中输出思考过程、内心独白或分析步骤，只输出最终答案。`;
+不要在回复中输出思考过程、内心独白或分析步骤，只输出最终答案。
 
-const MODEL_DEFAULT = 'openrouter/free';
+硬性输出约束：
+1) 永远不要输出类似 User Safety: safe、Assistant Safety: safe、Safety: ...、[SAFE]、[UNSAFE] 之类的内部分类标签。
+2) 永远不要输出 reasoning、思考链、分析过程、元描述。
+3) 如果你不确定怎么回答，就直接说明你主要负责小提琴、钢琴、美术课程咨询，建议添加课程顾问微信进一步沟通，不要编造。
+4) 永远只输出面向用户的中文短文回复，不要加任何前缀标签或分类码。`;
+
+const MODEL_DEFAULT = 'google/gemini-2.5-flash-lite';
 
 function setCors(res) {
   // 允许同源 + 本地开发；生产环境 Vercel 域名会自动处理
@@ -138,34 +144,81 @@ module.exports = async function handler(req, res) {
       max_tokens: 1000
     });
 
-    // OpenRouter 的 free 路由常指向推理模型，回复放在 message.content，
-    // 但部分推理模型把正文放在 message.reasoning 或同时存在。
-    // 这里按优先级尝试：content > reasoning；同时做隐私截断，
-    // 避免把整段推理原始回传给网页用户。
+    // Strict extraction of user-facing final reply.
+    // Rules:
+    //   1) Only use message.content. Never fall back to reasoning
+    //      (reasoning models put their thinking chain there, which is not for users).
+    //   2) Sanitize content: strip common internal classification tags
+    //      (User Safety: safe / Assistant Safety: safe / [SAFE] / [UNSAFE] etc.),
+    //      both as standalone lines AND when embedded mid-line.
+    //   3) If after sanitize the reply is empty or trivially short, return 500
+    //      so the frontend local fallback takes over.
+    //   4) Hard-cap the user-visible reply length as a final safety net.
     const _msg = (completion.choices && completion.choices[0] && completion.choices[0].message) || {};
-    let _raw = '';
-    if (typeof _msg.content === 'string')   _raw = _msg.content;
-    if (!_raw && typeof _msg.reasoning === 'string') _raw = _msg.reasoning;
-    const reply = String(_raw || '').trim();
+    const _rawContent = (typeof _msg.content === 'string') ? _msg.content : '';
+    const _rawReasoningLen = (typeof _msg.reasoning === 'string') ? _msg.reasoning.length : 0;
+    const _rawRefusalLen = (typeof _msg.refusal === 'string') ? _msg.refusal.length : 0;
 
-    // 安全诊断：只打印 finish_reason / model / reply 长度；不打印用户内容或 key。
-    // finish_reason = 'length' 表示被 max_tokens 截断；'stop' 表示正常结束；
-    // 'content_filter' 表示命中过滤；其他值也一并打印便于排查。
+    // Internal classification / safety markers that must NEVER reach the user.
+    // Match:
+    //   - whole-line tags like "User Safety: safe" / "Assistant Safety: unsafe"
+    //   - bracket tags like "[SAFE]" / "[UNSAFE]" / "[BLOCKED]"
+    //   - mid-line embeds like "reply: User Safety: safe" or "Safety: safe"
+    // Strategy: split into lines, drop any line containing these markers,
+    // AND drop a line if a marker appears inside it (keep nothing partial).
+    const _SAFETY_INLINE_RE = /(\b(user|assistant|user_input|assistant_response)\s*safety\s*[:：]|\bsafety\s*[:：]|\[(safe|unsafe|blocked|filtered|flagged|moderated|rejected)\])/i;
+
+    function _sanitizeUserFacingReply(s) {
+      if (!s) return '';
+      let t = String(s);
+
+      // 1. Remove XML-style reasoning blocks ( etc.) in full
+      t = t.replace(/<\s*(think|reasoning|analysis|reflection)\s*>[\s\S]*?<\s*\/\s*\1\s*>/gi, '');
+
+      // 2. Per-line filtering: drop any line that is purely classification,
+      //    OR contains a classification marker anywhere on the line.
+      const lines = t.split(/\r?\n/);
+      const kept = [];
+      for (const line of lines) {
+        const trimmed = line.trim();
+        if (!trimmed) continue; // collapse blank lines
+        if (_SAFETY_INLINE_RE.test(trimmed)) continue;
+        kept.push(line);
+      }
+      return kept.join('\n').trim();
+    }
+
+    let reply = _sanitizeUserFacingReply(_rawContent);
+
+    // 3. Defensive sanity floor: if "reply" is empty or trivially short,
+    //    treat it as invalid (model only emitted metadata, not a real answer).
+    const MIN_REPLY_CHARS = 4;
+    if (reply.length < MIN_REPLY_CHARS) reply = '';
+
+    // 4. Hard cap to keep the chat panel responsive if a model returns a wall of text.
+    const MAX_REPLY_CHARS = 2000;
+    if (reply.length > MAX_REPLY_CHARS) reply = reply.slice(0, MAX_REPLY_CHARS).trim();
+
+    // Safe diagnostic log: only field presence + lengths, never actual content
     try {
       const _fr = (completion.choices && completion.choices[0]) ? completion.choices[0].finish_reason : null;
       console.error('[api/chat] completion', JSON.stringify({
         model: model,
         finish_reason: _fr || null,
-        reply_length: reply.length,
-        reply_truncated: _fr === 'length'
+        content_present: _rawContent.length > 0,
+        content_raw_len: _rawContent.length,
+        reasoning_len: _rawReasoningLen,
+        refusal_len: _rawRefusalLen,
+        reply_sanitized_len: reply.length,
+        reply_truncated: _fr === 'length' || reply.length >= MAX_REPLY_CHARS
       }));
     } catch (_logErr) { /* ignore logging errors */ }
 
     if (!reply) {
-      console.error('[api/chat] empty reply from model:', model);
+      // After sanitize empty: do NOT return reasoning to frontend. Let local fallback take over.
+      console.error('[api/chat] empty after sanitize; content_len=' + _rawContent.length + ', reasoning_len=' + _rawReasoningLen + ', refusal_len=' + _rawRefusalLen);
       return serverError(res, 'Empty response from model');
     }
-
     setCors(res);
     return res.status(200).json({ reply });
   } catch (err) {
