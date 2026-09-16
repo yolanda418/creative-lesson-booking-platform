@@ -1,0 +1,80 @@
+.container { padding-bottom: 140rpx; }
+.history-link {
+  margin: 20rpx 20rpx 0;
+  text-align: right;
+  color: #4A90E2;
+  font-size: 26rpx;
+}
+.switcher {
+  display: flex;
+  margin: 20rpx;
+  background: #E8F1FB;
+  border-radius: 12rpx;
+  overflow: hidden;
+}
+.switch-item {
+  flex: 1;
+  text-align: center;
+  padding: 16rpx 0;
+  color: #4A90E2;
+}
+.switch-item.active { background: #4A90E2; color: #fff; }
+.recent-cancellations {
+  margin: 0 20rpx 20rpx;
+  padding: 20rpx;
+  background: #FBE9E7;
+  border: 1rpx solid #F3C5C0;
+  border-radius: 12rpx;
+  color: #A93226;
+}
+.recent-cancellations-title {
+  font-weight: bold;
+  margin-bottom: 12rpx;
+}
+.recent-cancellation-item {
+  font-size: 26rpx;
+  line-height: 1.8;
+}
+.fab {
+  position: fixed;
+  right: 30rpx;
+  bottom: calc(140rpx + env(safe-area-inset-bottom));
+  background: #4A90E2;
+  color: #fff;
+  padding: 20rpx 30rpx;
+  border-radius: 40rpx;
+  box-shadow: 0 4rpx 16rpx rgba(74,144,226,0.3);
+}
+.mask {
+  position: fixed;
+  top:0; left:0; right:0; bottom:0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+.modal {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  width: 80%;
+}
+.input {
+  background: #E8F1FB;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  margin-bottom: 16rpx;
+}
+/* 已过期未预约(open 但开始时间已过):卡片整体变灰,文字变弱,提示老师忽略。*/
+.card-expired {
+  background: #F0F2F5;
+  box-shadow: none;
+  opacity: 0.7;
+}
+.card-expired .text-muted { color: #A6B3C2; }
+/* 过期时段的状态标签:中性灰,与 tag-open 的绿色形成对比 */
+.tag-expired {
+  background: #ECEFF3;
+  color: #8492A6;
+}

@@ -1,0 +1,16 @@
+{
+  "name": "qinxiao-web",
+  "version": "1.0.0",
+  "private": true,
+  "description": "琴小助课程宣传网页 + AI 课程助手后端",
+  "main": "api/chat.js",
+  "scripts": {
+    "dev": "node api/dev-server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "openai": "^4.104.0"
+  }
+}

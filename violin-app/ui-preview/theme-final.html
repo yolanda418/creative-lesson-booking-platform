@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Qin Xiao Zhu - Soft Blue Theme Preview</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif; background: #1a1a2e; color: #eee; min-height: 100vh; padding: 40px 20px; }
+  .header { max-width: 1200px; margin: 0 auto 40px; text-align: center; }
+  .header h1 { font-size: 30px; margin-bottom: 12px; color: #fff; }
+  .header p { color: #aaa; font-size: 15px; line-height: 1.7; }
+  .header .emoji { font-size: 56px; margin-bottom: 16px; }
+  .header .swatches { display: inline-flex; gap: 12px; margin-top: 20px; flex-wrap: wrap; justify-content: center; }
+  .header .swatch { display: flex; align-items: center; gap: 8px; background: #2a2a3e; padding: 6px 12px; border-radius: 16px; font-size: 12px; color: #ccc; }
+  .header .swatch i { display: inline-block; width: 16px; height: 16px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1); }
+  .grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 32px; }
+  .phone-frame { background: #2a2a3e; border-radius: 24px; padding: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+  .phone-label { text-align: center; margin-bottom: 12px; font-size: 13px; color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
+  .phone-screen { background: #F5F8FC; border-radius: 12px; overflow: hidden; aspect-ratio: 9 / 19; display: flex; flex-direction: column; }
+  .nav-bar { background: #4A90E2; color: #fff; padding: 24px 16px 12px; font-size: 16px; font-weight: 500; text-align: center; }
+  .nav-bar.has-status { padding-top: 44px; }
+  .content { flex: 1; overflow-y: auto; position: relative; }
+  .tab-bar { background: #fff; border-top: 1px solid #DCE6F0; display: flex; height: 64px; box-shadow: 0 -2px 12px rgba(74,144,226,0.06); }
+  .tab-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #A6B3C2; font-size: 11px; }
+  .tab-item.active { color: #4A90E2; }
+  .tab-icon { font-size: 22px; margin-bottom: 2px; }
+  .switcher { display: flex; margin: 16px; background: #E8F1FB; border-radius: 10px; overflow: hidden; }
+  .switch-item { flex: 1; text-align: center; padding: 12px 0; color: #4A90E2; font-size: 13px; }
+  .switch-item.active { background: #4A90E2; color: #fff; }
+  .card { background: #fff; border-radius: 12px; padding: 16px; margin: 16px; box-shadow: 0 2px 12px rgba(74,144,226,0.08); }
+  .card-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .card-title { font-weight: bold; font-size: 15px; color: #2C3E50; }
+  .card-sub { color: #7A8AA0; font-size: 12px; margin-top: 6px; }
+  .card-faint { color: #A6B3C2; font-size: 12px; }
+  .tag { display: inline-block; font-size: 11px; padding: 2px 10px; border-radius: 10px; }
+  .tag-open { background: #E3F2E5; color: #5C8A4D; }
+  .tag-booked { background: #FFF4DE; color: #C9941F; }
+  .tag-cancelled { background: #FBE9E7; color: #C0392B; }
+  .tag-completed { background: #ECEFF3; color: #8492A6; }
+  .btn-primary { background: #4A90E2; color: #fff; border: none; border-radius: 10px; padding: 10px 16px; font-size: 13px; margin-top: 12px; width: 100%; cursor: default; }
+  .btn-plain { background: #E8F1FB; color: #4A90E2; border: none; border-radius: 10px; padding: 10px 16px; font-size: 13px; width: 100%; cursor: default; }
+  .fab { position: absolute; right: 16px; bottom: 80px; background: #4A90E2; color: #fff; padding: 10px 16px; border-radius: 20px; font-size: 13px; box-shadow: 0 4px 12px rgba(74,144,226,0.3); }
+  .field-label { color: #7A8AA0; font-size: 12px; margin: 10px 0 4px; }
+  .field-value { background: #E8F1FB; border-radius: 10px; padding: 12px 14px; color: #2C3E50; font-size: 13px; }
+  .input-mock { background: #E8F1FB; border-radius: 10px; padding: 12px 14px; color: #A6B3C2; font-size: 13px; margin-bottom: 10px; }
+  .mask { position: absolute; inset: 0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; }
+  .modal { background: #fff; border-radius: 12px; padding: 20px; width: 85%; }
+  .footer-note { max-width: 1200px; margin: 40px auto 20px; text-align: center; color: #888; font-size: 13px; line-height: 1.8; }
+  code { background: #2a2a3e; padding: 2px 6px; border-radius: 4px; color: #6BB6FF; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="emoji">&#x1F3BB;</div>
+  <h1>&#x7434;&#x5C0F;&#x52A9; · &#x67D4;&#x548C;&#x84DD;&#x4E3B;&#x9898;</h1>
+  <p>&#x4E3B;&#x8272; <code>#4A90E2</code> · &#x6D45;&#x5E95; <code>#E8F1FB</code> · &#x80CC;&#x666F; <code>#F5F8FC</code> &#x2014;&#x2014; &#x4E0E;&#x5C0F;&#x7A0B;&#x5E8F;&#x5F53;&#x524D; <code>app.wxss</code> &#x5B8C;&#x5168;&#x4E00;&#x81F4;</p>
+  <div class="swatches">
+    <span class="swatch"><i style="background:#4A90E2"></i>&#x4E3B;&#x8272; #4A90E2</span>
+    <span class="swatch"><i style="background:#357ABD"></i>&#x6DF1;&#x8272; #357ABD</span>
+    <span class="swatch"><i style="background:#E8F1FB"></i>&#x6D45;&#x5E95; #E8F1FB</span>
+    <span class="swatch"><i style="background:#F5F8FC"></i>&#x80CC;&#x666F; #F5F8FC</span>
+    <span class="swatch"><i style="background:#2C3E50"></i>&#x6587;&#x5B57; #2C3E50</span>
+    <span class="swatch"><i style="background:#7A8AA0"></i>&#x6B21;&#x8981; #7A8AA0</span>
+    <span class="swatch"><i style="background:#A6B3C2"></i>&#x5F31;&#x5316; #A6B3C2</span>
+    <span class="swatch"><i style="background:#DCE6F0"></i>&#x5206;&#x9694; #DCE6F0</span>
+  </div>
+</div>
+<div class="grid">
+  <div class="phone-frame">
+    <div class="phone-label">&#x1F4F1; Student - My Lessons</div>
+    <div class="phone-screen">
+      <div class="nav-bar has-status">&#x6211;&#x7684;&#x8BFE;&#x7A0B;</div>
+      <div class="content">
+        <div class="switcher">
+          <div class="switch-item">&#x4ECA;&#x5929;</div>
+          <div class="switch-item active">&#x672C;&#x5468;</div>
+          <div class="switch-item">&#x5168;&#x90E8;</div>
+        </div>
+        <div class="card">
+          <div class="card-row">
+            <span class="card-title">&#x1F3BB; &#x5C0F;&#x63D0;&#x7434;</span>
+            <span class="tag tag-booked">&#x5DF2;&#x9884;&#x7EA6;</span>
+          </div>
+          <div class="card-sub">2026-09-09 &#x5468;&#x4E8C; 16:00 - 16:45</div>
+        </div>
+        <div class="card">
+          <div class="card-row">
+            <span class="card-title">&#x1F3BB; &#x5C0F;&#x63D0;&#x7434;</span>
+            <span class="tag tag-completed">&#x5DF2;&#x5B8C;&#x6210;</span>
+          </div>
+          <div class="card-sub">2026-09-07 &#x5468;&#x65E5; 10:00 - 10:45</div>
+        </div>
+        <div class="card">
+          <div class="card-row">
+            <span class="card-title">&#x1F3BB; &#x5C0F;&#x63D0;&#x7434;</span>
+            <span class="tag tag-cancelled">&#x5DF2;&#x53D6;&#x6D88;</span>
+          </div>
+          <div class="card-sub">2026-09-05 &#x5468;&#x4E94; 19:00 - 19:45</div>
+        </div>
+      </div>
+      <div class="tab-bar">
+        <div class="tab-item active"><div class="tab-icon">&#x1F4C5;</div>&#x6211;&#x7684;&#x8BFE;&#x7A0B;</div>
+        <div class="tab-item"><div class="tab-icon">&#x1F4DD;</div>&#x9884;&#x7EA6;&#x8BFE;&#x7A0B;</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phone-frame">
+    <div class="phone-label">&#x1F4F1; Student - Book Lessons</div>
+    <div class="phone-screen">
+      <div class="nav-bar has-status">&#x9884;&#x7EA6;&#x8BFE;&#x7A0B;</div>
+      <div class="content">
+        <div class="card">
+          <div class="card-row">
+            <span class="card-title">&#x1F3BB; &#x5C0F;&#x63D0;&#x7434;</span>
+            <span class="tag tag-open">&#x53EF;&#x9884;&#x7EA6;</span>
+          </div>
+          <div class="card-sub">2026-09-12 &#x5468;&#x4E94; 14:00 - 14:45</div>
+          <button class="btn-primary">&#x7ACB;&#x5373;&#x9884;&#x7EA6;</button>
+        </div>
+        <div class="card">
+          <div class="card-row">
+            <span class="card-title">&#x1F3BB; &#x5C0F;&#x63D0;&#x7434;</span>
+            <span class="tag tag-open">&#x53EF;&#x9884;&#x7EA6;</span>
+          </div>
+          <div class="card-sub">2026-09-13 &#x5468;&#x516D; 09:30 - 10:15</div>
+          <button class="btn-primary">&#x7ACB;&#x5373;&#x9884;&#x7EA6;</button>
+        </div>
+      </div>
+      <div class="tab-bar">
+        <div class="tab-item"><div class="tab-icon">&#x1F4C5;</div>&#x6211;&#x7684;&#x8BFE;&#x7A0B;</div>
+        <div class="tab-item active"><div class="tab-icon">&#x1F4DD;</div>&#x9884;&#x7EA6;&#x8BFE;&#x7A0B;</div>
+      </div>
+    </div>
+  </div>
+  <div class="phone-frame">
+    <div class="phone-label">&#x1F4F1; Teacher - My Lessons</div>
+    <div class="phone-screen">
+      <div class="nav-bar has-status">&#x6211;&#x7684;&#x8BFE;&#x7A0B;</div>
+      <div class="content">
+        <div class="switcher">
+          <div class="switch-item active">&#x4ECA;&#x5929;</div>
+          <div class="switch-item">&#x672C;&#x5468;</div>
+          <div class="switch-item">&#x5168;&#x90E8;</div>
+        </div>
+        <div class="card">
+          <div class="card-row">
+            <span class="card-title">&#x1F3BB; &#x5C0F;&#x63D0;&#x7434; · &#x5C0F;&#x660E;</span>
+            <span class="tag tag-booked">&#x5DF2;&#x9884;&#x7EA6;</span>
+          </div>
+          <div class="card-sub">2026-09-09 &#x5468;&#x4E8C; 16:00 - 16:45</div>
+        </div>
+        <div class="fab">+ &#x65B0;&#x5EFA;&#x53EF;&#x9884;&#x7EA6;&#x65F6;&#x6BB5;</div>
+      </div>
+      <div class="tab-bar">
+        <div class="tab-item active"><div class="tab-icon">&#x1F4C5;</div>&#x6211;&#x7684;&#x8BFE;&#x7A0B;</div>
+        <div class="tab-item"><div class="tab-icon">&#x1F469;&#x200D;&#x1F393;</div>&#x4ECA;&#x65E5;&#x5B66;&#x751F;</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phone-frame">
+    <div class="phone-label">&#x1F4F1; Teacher - Today&#39;s Students</div>
+    <div class="phone-screen">
+      <div class="nav-bar has-status">&#x4ECA;&#x65E5;&#x5B66;&#x751F;</div>
+      <div class="content">
+        <div class="card-faint" style="margin: 16px;">2026-09-08 &#x5468;&#x4E8C;</div>
+        <div class="card">
+          <div class="card-row">
+            <span class="card-title">&#x1F469;&#x200D;&#x1F393; &#x5C0F;&#x660E;</span>
+            <span class="card-faint">16:00 - 16:45</span>
+          </div>
+          <div class="card-sub">&#x1F3BB; &#x5C0F;&#x63D0;&#x7434;</div>
+          <div class="card-sub" style="margin-top:4px;">&#x1F4DE; 138****0001</div>
+          <button class="btn-plain" style="margin-top:12px;">&#x1F514; &#x5F00;&#x542F;&#x8FD9;&#x8282;&#x8BFE;&#x63D0;&#x9192;</button>
+        </div>
+        <div class="card">
+          <div class="card-row">
+            <span class="card-title">&#x1F469;&#x200D;&#x1F393; &#x5C0F;&#x7EA2;</span>
+            <span class="card-faint">19:00 - 19:45</span>
+          </div>
+          <div class="card-sub">&#x1F3BB; &#x5C0F;&#x63D0;&#x7434;</div>
+          <button class="btn-plain" style="margin-top:12px;">&#x1F514; &#x5F00;&#x542F;&#x8FD9;&#x8282;&#x8BFE;&#x63D0;&#x9192;</button>
+        </div>
+      </div>
+      <div class="tab-bar">
+        <div class="tab-item"><div class="tab-icon">&#x1F4C5;</div>&#x6211;&#x7684;&#x8BFE;&#x7A0B;</div>
+        <div class="tab-item active"><div class="tab-icon">&#x1F469;&#x200D;&#x1F393;</div>&#x4ECA;&#x65E5;&#x5B66;&#x751F;</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<div class="grid" style="margin-top: 32px;">
+
+  <div class="phone-frame">
+    <div class="phone-label">&#x1F4F1; Student - Lesson Detail</div>
+    <div class="phone-screen">
+      <div class="nav-bar has-status">&#x8BFE;&#x7A0B;&#x8BE6;&#x60C5;</div>
+      <div class="content">
+        <div class="card">
+          <div style="font-size: 20px; font-weight: bold; color: #2C3E50;">&#x1F3BB; &#x5C0F;&#x63D0;&#x7434;</div>
+          <div class="card-sub" style="margin-top:12px;">&#x65E5;&#x671F;: 2026-09-09 &#x5468;&#x4E8C;</div>
+          <div class="card-sub" style="margin-top:6px;">&#x65F6;&#x95F4;: 16:00 - 16:45</div>
+          <div style="margin-top: 12px; font-size: 13px; color: #2C3E50;">
+            &#x72B6;&#x6001;: <span class="tag tag-booked">&#x5DF2;&#x9884;&#x7EA6;</span>
+          </div>
+        </div>
+        <div class="card">
+          <button class="btn-plain" style="margin-bottom: 12px;">&#x1F514; &#x5F00;&#x542F;&#x8FD9;&#x8282;&#x8BFE;&#x7684;&#x4E0A;&#x8BFE;/&#x4E0B;&#x8BFE;&#x63D0;&#x9192;</button>
+          <button class="btn-primary">&#x53D6;&#x6D88;&#x8FD9;&#x8282;&#x8BFE;</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phone-frame">
+    <div class="phone-label">&#x1F4F1; Teacher - Adjust Lesson</div>
+    <div class="phone-screen">
+      <div class="nav-bar has-status">&#x8C03;&#x6574;&#x8BFE;&#x7A0B;</div>
+      <div class="content">
+        <div class="card">
+          <div class="card-faint" style="margin-bottom: 12px;">&#x1F3BB; &#x5C0F;&#x63D0;&#x7434;</div>
+          <div class="field-label">&#x65E5;&#x671F;</div>
+          <div class="field-value">2026-09-09</div>
+          <div class="field-label">&#x5F00;&#x59CB;&#x65F6;&#x95F4;</div>
+          <div class="field-value">16:00</div>
+          <div class="field-label">&#x7ED3;&#x675F;&#x65F6;&#x95F4;</div>
+          <div class="field-value">16:45</div>
+          <div class="field-label">&#x5B66;&#x751F;</div>
+          <div class="field-value">&#x5C0F;&#x660E;</div>
+          <button class="btn-primary">&#x4FDD;&#x5B58;&#x4FEE;&#x6539;</button>
+          <button class="btn-plain" style="margin-top: 12px;">&#x53D6;&#x6D88;&#x8FD9;&#x8282;&#x8BFE;(&#x4E0D;&#x53EF;&#x6062;&#x590D;)</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="phone-frame">
+    <div class="phone-label">&#x1F4F1; Teacher - New Slot Modal</div>
+    <div class="phone-screen">
+      <div class="nav-bar has-status">&#x1F3BB; &#x7434;&#x5C0F;&#x52A9;</div>
+      <div class="content">
+        <div class="mask">
+          <div class="modal">
+            <div style="font-weight: bold; margin-bottom: 16px; color: #2C3E50;">&#x65B0;&#x5EFA;&#x53EF;&#x9884;&#x7EA6;&#x65F6;&#x6BB5;</div>
+            <div class="field-value">&#x65E5;&#x671F;: 2026-09-12</div>
+            <div class="field-value">&#x5F00;&#x59CB;&#x65F6;&#x95F4;: 14:00</div>
+            <div class="field-value">&#x7ED3;&#x675F;&#x65F6;&#x95F4;: 14:45</div>
+            <button class="btn-primary">&#x521B;&#x5EFA;</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phone-frame">
+    <div class="phone-label">&#x1F4F1; Student First-time - Profile</div>
+    <div class="phone-screen">
+      <div class="nav-bar has-status">&#x6B22;&#x8FCE;&#x4F7F;&#x7528;</div>
+      <div class="content">
+        <div class="card">
+          <div style="margin-bottom: 16px; font-weight: bold; color: #2C3E50;">&#x9996;&#x6B21;&#x4F7F;&#x7528;,&#x8BF7;&#x586B;&#x5199;&#x4F60;&#x7684;&#x59D3;&#x540D;</div>
+          <div class="input-mock">&#x59D3;&#x540D;</div>
+          <div class="input-mock">&#x8054;&#x7CFB;&#x7535;&#x8BDD;(&#x9009;&#x586B;)</div>
+          <button class="btn-primary">&#x4FDD;&#x5B58;&#x5E76;&#x8FDB;&#x5165;</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer-note">
+  <p>&#x8FD9; 8 &#x5F20;&#x662F;&#x7434;&#x5C0F;&#x52A9;&#x6838;&#x5FC3;&#x9875;&#x9762;&#x7684; 1:1 &#x89C6;&#x89C9;&#x8FD8;&#x539F;,&#x4E0E;&#x5C0F;&#x7A0B;&#x5E8F;&#x5F53;&#x524D; <code>app.wxss</code> &#x7684;&#x8272;&#x677F;&#x3001;&#x7EC4;&#x4EF6;&#x3001;&#x5E95;&#x90E8; tabBar&#x3001;&#x72B6;&#x6001;&#x6807;&#x7B7E;&#x5B8C;&#x5168;&#x4E00;&#x81F4;&#x3002;</p>
+  <p>&#x6253;&#x5F00; <code>D:\violin-app\violin-app\ui-preview\theme-final.html</code> &#x5728;&#x6D4F;&#x89C8;&#x5668;&#x770B;,&#x8DDF;&#x672A;&#x6765;&#x5FAE;&#x4FE1;&#x91CC;&#x770B;&#x5230;&#x7684;&#x6548;&#x679C;&#x4E00;&#x81F4;&#x3002;</p>
+  <p style="margin-top: 24px; color: #7A8AA0;">&#x2014; &#x7434;&#x5C0F;&#x52A9; · &#x97F3;&#x4E50;&#x8BFE;&#x7A0B;&#x7BA1;&#x7406;&#x5C0F;&#x7A0B;&#x5E8F; · &#x67D4;&#x548C;&#x84DD;&#x4E3B;&#x9898; &#x2014;</p>
+</div>
+</body>
+</html>

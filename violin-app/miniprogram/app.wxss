@@ -1,0 +1,51 @@
+/* 柔和蓝主题(2026-09-08)
+   主色:#4A90E2 / 深 #357ABD / 浅底 #E8F1FB
+   页面背景:#F5F8FC / 文字:#2C3E50
+   次要文字:#7A8AA0(柔和蓝灰) / 弱化文字:#A6B3C2
+   分隔线:#DCE6F0
+*/
+page {
+  background: #F5F8FC;
+  font-size: 28rpx;
+  color: #2C3E50;
+}
+.card {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  margin: 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(74,144,226,0.08);
+}
+.btn-primary {
+  background: #4A90E2;
+  color: #fff;
+  border-radius: 12rpx;
+}
+.btn-primary-hover { background: #357ABD; }
+.btn-plain {
+  background: #E8F1FB;
+  color: #4A90E2;
+  border-radius: 12rpx;
+}
+.divider {
+  height: 1rpx;
+  background: #DCE6F0;
+  margin: 20rpx 0;
+}
+.text-muted { color: #7A8AA0; }
+.text-faint { color: #A6B3C2; }
+.tag {
+  display: inline-block;
+  font-size: 22rpx;
+  padding: 4rpx 16rpx;
+  border-radius: 20rpx;
+}
+.tag-open { background: #E3F2E5; color: #5C8A4D; }
+.tag-booked { background: #FFF4DE; color: #C9941F; }
+.tag-cancelled { background: #FBE9E7; color: #C0392B; }
+.tag-completed { background: #ECEFF3; color: #8492A6; }
+.empty {
+  text-align: center;
+  color: #7A8AA0;
+  padding: 100rpx 0;
+}

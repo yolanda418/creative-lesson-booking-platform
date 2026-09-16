@@ -1,0 +1,44 @@
+<view class="container">
+  <view class="history-link" bindtap="goHistory">查看历史课程 ></view>
+
+  <view class="switcher">
+    <view class="switch-item {{range==='today' ? 'active' : ''}}" data-range="today" bindtap="onRangeChange">今天</view>
+    <view class="switch-item {{range==='week' ? 'active' : ''}}" data-range="week" bindtap="onRangeChange">本周</view>
+    <view class="switch-item {{range==='all' ? 'active' : ''}}" data-range="all" bindtap="onRangeChange">全部</view>
+  </view>
+
+  <view wx:if="{{recentCancellations.length > 0}}" class="recent-cancellations">
+    <view class="recent-cancellations-title">最近取消</view>
+    <view wx:for="{{recentCancellations}}" wx:key="_id" class="recent-cancellation-item">
+      {{item.cancellationText}}
+    </view>
+  </view>
+
+  <view wx:if="{{list.length === 0}}" class="empty">这段时间还没有课程</view>
+
+  <view wx:for="{{list}}" wx:key="_id" class="card {{item.isExpiredOpen ? 'card-expired' : ''}}" data-id="{{item._id}}" bindtap="goAdjust">
+    <view style="display:flex;justify-content:space-between;">
+      <text style="font-weight:bold;">🎻 {{item.subjectName}} · {{item.studentName}}</text>
+      <text class="tag tag-{{item.status}} {{item.isExpiredOpen ? 'tag-expired' : ''}}">{{item.statusLabel}}</text>
+    </view>
+    <view class="text-muted" style="margin-top:12rpx;">{{item.date}} {{item.weekday}} {{item.startTime}} - {{item.endTime}}</view>
+  </view>
+
+  <view class="fab" bindtap="showCreateModal">＋ 新建可预约时段</view>
+
+  <view wx:if="{{showCreate}}" class="mask" bindtap="hideCreateModal">
+    <view class="modal" catchtap="stop">
+      <view style="font-weight:bold;margin-bottom:20rpx;">新建可预约时段</view>
+      <picker mode="date" value="{{form.date}}" bindchange="onDateChange">
+        <view class="input">日期: {{form.date || '请选择'}}</view>
+      </picker>
+      <picker mode="time" value="{{form.startTime}}" bindchange="onStartChange">
+        <view class="input">开始时间: {{form.startTime || '请选择'}}</view>
+      </picker>
+      <picker mode="time" value="{{form.endTime}}" bindchange="onEndChange">
+        <view class="input">结束时间: {{form.endTime || '请选择'}}</view>
+      </picker>
+      <button class="btn-primary" bindtap="createSlot">创建</button>
+    </view>
+  </view>
+</view>

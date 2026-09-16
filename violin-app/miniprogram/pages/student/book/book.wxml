@@ -1,0 +1,12 @@
+<view class="container">
+  <view wx:if="{{list.length === 0}}" class="empty">最近暂时没有可预约的时段,请稍后再看</view>
+
+  <view wx:for="{{list}}" wx:key="_id" class="card">
+    <view style="display:flex;justify-content:space-between;">
+      <text style="font-weight:bold;">🎻 {{item.subjectName}}</text>
+      <text class="tag tag-open">可预约</text>
+    </view>
+    <view class="text-muted" style="margin-top:12rpx;">{{item.date}} {{item.weekday}} {{item.startTime}} - {{item.endTime}}</view>
+    <button class="btn-primary" style="margin-top:20rpx;" data-id="{{item._id}}" bindtap="book">立即预约</button>
+  </view>
+</view>

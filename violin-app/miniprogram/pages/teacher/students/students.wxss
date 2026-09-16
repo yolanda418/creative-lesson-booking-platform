@@ -1,0 +1,15 @@
+.container { padding-bottom: 140rpx; }
+.student-actions {
+  display: flex;
+  margin-top: 16rpx;
+}
+.student-actions .btn-plain {
+  flex: 1;
+  margin: 0;
+  font-size: 24rpx;
+  padding-left: 8rpx;
+  padding-right: 8rpx;
+}
+.student-actions .btn-plain + .btn-plain {
+  margin-left: 16rpx;
+}

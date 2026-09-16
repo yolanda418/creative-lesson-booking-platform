@@ -1,0 +1,18 @@
+<view class="container">
+  <view class="text-faint" style="margin:20rpx;">{{date}}</view>
+
+  <view wx:if="{{list.length === 0}}" class="empty">今天还没有已预约的学生</view>
+
+  <view wx:for="{{list}}" wx:key="_id" class="card">
+    <view style="display:flex;justify-content:space-between;">
+      <text style="font-weight:bold;">👩‍🎓 {{item.student.name}}</text>
+      <text class="text-muted">{{item.startTime}} - {{item.endTime}}</text>
+    </view>
+    <view class="text-muted" style="margin-top:12rpx;">🎻 {{item.subjectName}}</view>
+    <view wx:if="{{item.student.phone}}" class="text-muted" style="margin-top:8rpx;">📞 {{item.student.phone}}</view>
+    <view class="student-actions">
+      <button class="btn-plain" data-id="{{item._id}}" bindtap="subscribeReminders">🔔 开启这节课提醒</button>
+      <button class="btn-plain" data-id="{{item._id}}" bindtap="goAdjust">调整/取消这节课</button>
+    </view>
+  </view>
+</view>

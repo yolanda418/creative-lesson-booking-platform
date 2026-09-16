@@ -1,0 +1,9 @@
+{
+  "name": "addViolinSubject",
+  "version": "1.0.0",
+  "description": "一次性辅助云函数,添加小提琴科目记录",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

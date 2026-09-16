@@ -1,0 +1,19 @@
+<view class="container" wx:if="{{lesson}}">
+  <view class="card">
+    <view style="font-size:36rpx;font-weight:bold;">🎻 {{lesson.subjectName}}</view>
+    <view class="text-muted" style="margin-top:20rpx;">日期: {{lesson.date}} {{lesson.weekday}}</view>
+    <view class="text-muted" style="margin-top:10rpx;">时间: {{lesson.startTime}} - {{lesson.endTime}}</view>
+    <view style="margin-top:10rpx;">
+      状态: <text class="tag tag-{{lesson.status}}">{{lesson.statusLabel}}</text>
+    </view>
+  </view>
+
+  <view class="card">
+    <button class="btn-plain" bindtap="subscribeReminders" style="margin-bottom:16rpx;">
+      🔔 开启这节课的上课/下课提醒
+    </button>
+    <button wx:if="{{lesson.status === 'booked'}}" class="btn-primary" bindtap="cancelLesson">
+      取消这节课
+    </button>
+  </view>
+</view>

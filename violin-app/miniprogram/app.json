@@ -1,0 +1,33 @@
+{
+  "lazyCodeLoading": "requiredComponents",
+  "pages": [
+    "pages/index/index",
+    "pages/student/lessons/lessons",
+    "pages/student/detail/detail",
+    "pages/student/book/book",
+    "pages/teacher/lessons/lessons",
+    "pages/teacher/students/students",
+    "pages/teacher/adjust/adjust",
+    "pages/teacher/history/history"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#4A90E2",
+    "navigationBarTitleText": "琴小助",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#F5F8FC"
+  },
+  "tabBar": {
+    "custom": true,
+    "color": "#7A8AA0",
+    "selectedColor": "#4A90E2",
+    "backgroundColor": "#ffffff",
+    "list": [
+      { "pagePath": "pages/student/lessons/lessons", "text": "我的课程" },
+      { "pagePath": "pages/student/book/book", "text": "预约课程" },
+      { "pagePath": "pages/teacher/lessons/lessons", "text": "我的课程" },
+      { "pagePath": "pages/teacher/students/students", "text": "今日学生" }
+    ]
+  },
+  "sitemapLocation": "sitemap.json",
+  "style": "v2"
+}

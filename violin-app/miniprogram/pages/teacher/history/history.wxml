@@ -1,0 +1,23 @@
+<view class="container">
+  <picker mode="date" fields="month" value="{{month}}" bindchange="onMonthChange">
+    <view class="month-bar">
+      <text>选择月份</text>
+      <text class="month-label">{{monthDisplay}}</text>
+    </view>
+  </picker>
+
+  <view class="summary">本月共上课 {{total}} 节</view>
+
+  <view wx:if="{{list.length === 0}}" class="empty">这个月还没有历史课程</view>
+
+  <view wx:for="{{list}}" wx:key="_id" class="card">
+    <view style="display:flex;justify-content:space-between;">
+      <text style="font-weight:bold;">🎻 {{item.subjectName}} · {{item.studentName || '(无学生)'}}</text>
+    </view>
+    <view class="text-muted" style="margin-top:12rpx;">{{item.date}} {{item.weekday}} {{item.startTime}} - {{item.endTime}}</view>
+  </view>
+
+  <view class="export-bar">
+    <button class="btn-primary" bindtap="exportMonthly">导出本月课表</button>
+  </view>
+</view>

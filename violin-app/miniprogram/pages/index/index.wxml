@@ -1,0 +1,10 @@
+<view class="container">
+  <view wx:if="{{loading}}" class="empty">加载中...</view>
+
+  <view wx:elif="{{needProfile}}" class="card">
+    <view style="margin-bottom:20rpx;font-weight:bold;">首次使用,请填写你的姓名</view>
+    <input class="input" placeholder="姓名" value="{{name}}" bindinput="onNameInput" />
+    <input class="input" placeholder="联系电话(选填)" value="{{phone}}" bindinput="onPhoneInput" />
+    <button class="btn-primary" style="margin-top:20rpx;" bindtap="submitProfile">保存并进入</button>
+  </view>
+</view>

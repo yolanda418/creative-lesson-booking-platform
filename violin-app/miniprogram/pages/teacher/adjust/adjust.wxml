@@ -1,0 +1,22 @@
+<view class="container" wx:if="{{form.date}}">
+  <view class="card">
+    <view class="text-faint" style="margin-bottom:16rpx;">🎻 {{lesson.subjectName}}</view>
+
+    <picker mode="date" value="{{form.date}}" bindchange="onDateChange">
+      <view class="input">日期: {{form.date}}</view>
+    </picker>
+    <picker mode="time" value="{{form.startTime}}" bindchange="onStartChange">
+      <view class="input">开始时间: {{form.startTime}}</view>
+    </picker>
+    <picker mode="time" value="{{form.endTime}}" bindchange="onEndChange">
+      <view class="input">结束时间: {{form.endTime}}</view>
+    </picker>
+
+    <picker range="{{studentOptions}}" range-key="name" bindchange="onStudentChange">
+      <view class="input">学生: {{selectedStudentName || '(不设置,变回可预约)'}}</view>
+    </picker>
+
+    <button class="btn-primary" style="margin-top:20rpx;" bindtap="save">保存修改</button>
+    <button class="btn-plain" style="margin-top:16rpx;" bindtap="cancelWhole">取消这节课(不可恢复)</button>
+  </view>
+</view>

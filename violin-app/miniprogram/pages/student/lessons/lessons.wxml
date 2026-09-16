@@ -1,0 +1,17 @@
+<view class="container">
+  <view class="switcher">
+    <view class="switch-item {{range==='today' ? 'active' : ''}}" data-range="today" bindtap="onRangeChange">今天</view>
+    <view class="switch-item {{range==='week' ? 'active' : ''}}" data-range="week" bindtap="onRangeChange">本周</view>
+    <view class="switch-item {{range==='all' ? 'active' : ''}}" data-range="all" bindtap="onRangeChange">全部</view>
+  </view>
+
+  <view wx:if="{{list.length === 0}}" class="empty">这段时间还没有已预约的课程</view>
+
+  <view wx:for="{{list}}" wx:key="_id" class="card" data-id="{{item._id}}" bindtap="goDetail">
+    <view style="display:flex;justify-content:space-between;">
+      <text style="font-weight:bold;">🎻 {{item.subjectName}}</text>
+      <text class="tag tag-{{item.status}}">{{item.statusLabel}}</text>
+    </view>
+    <view class="text-muted" style="margin-top:12rpx;">{{item.date}} {{item.weekday}} {{item.startTime}} - {{item.endTime}}</view>
+  </view>
+</view>
