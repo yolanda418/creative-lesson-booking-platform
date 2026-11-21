@@ -1,14 +1,13 @@
-# Creative Lesson Booking Platform
+# 琴小助 · Creative Lesson Booking Platform
 
-### 琴小助
+> 面向音乐与美术兴趣课程的预约与学生管理作品集。
 
-**Version 1.0 — Live Portfolio Project**
+> 🌐 Languages: **中文（当前）** · [English](./README.en.md)
 
-The current production version focuses on violin lesson discovery,
-AI-assisted course consultation, trial lesson inquiry, and authorized
-student access, while the platform architecture is designed to support
-additional music and art course categories such as piano and visual
-arts.
+**版本 1.0 — 已上线的作品集项目**
+
+当前正式版本聚焦小提琴课程发现、AI 课程咨询、试听预约与已授权学员的课程管理，
+同时平台架构本身按多类别、可扩展设计，支持后续接入钢琴、视觉艺术等更多课程类别。
 
 ![Status](https://img.shields.io/badge/status-V1.0%20Live-brightgreen)
 ![Stack](https://img.shields.io/badge/stack-HTML%20%7C%20CSS%20%7C%20JS%20%7C%20Node.js-blue)
@@ -17,183 +16,157 @@ arts.
 
 ---
 
-## Overview
+## 项目概览
 
-This repository contains the public-facing pieces of a real-world lesson
-booking platform for music and art classes, with **violin as the current
-primary implementation** and an **extensible, multi-category course
-structure** ready to host additional course categories such as piano
-and visual arts.
+本仓库包含一个面向音乐与美术兴趣课程的真实场景预约平台的**公开部分**：
+**小提琴是当前的主实现**，平台按**可扩展的多类别课程结构**设计，
+可承载钢琴、视觉艺术等更多课程类别。
 
-There are **two intentionally separate entry points**:
+这里有**两个有意分离的入口**：
 
-| Entry point | Audience | Purpose |
+| 入口 | 使用对象 | 用途 |
 |---|---|---|
-| Public website (`web/`) | Anyone visiting the studio | Course discovery, teacher introduction, AI-assisted consultation, trial lesson inquiry |
-| WeChat Mini Program (`violin-app/`) | Enrolled students only, authorized by the institution | View lessons, book/cancel slots, receive lesson reminders |
+| 公开网站（`web/`） | 到访工作室的任何访客 | 课程浏览、老师介绍、AI 课程咨询、试听预约 |
+| 微信小程序（`violin-app/`） | 仅限已报名并经机构授权的学员 | 查看课程、预约/取消时段、接收上课提醒 |
 
-> The Mini Program is **not** a public booking entry point. It is reserved
-> for students who have already signed up through the studio's WeChat
-> consultant and have been authorized by the institution. This is an
-> intentional separation between public discovery and enrolled student
-> operations — not missing functionality.
+> 小程序**不是**公开的预约入口。它只面向已经通过工作室微信课程顾问报名、
+> 并获得机构授权的学员。这是公开浏览与在读学员运营之间的有意隔离，
+> 并不是功能缺失。
 
 ---
 
-## Why This Project
+## 为什么做这个项目
 
-In a small studio, the workflow is naturally split into two phases:
+在一家小型工作室里，业务流程天然分成两个阶段：
 
-1. **Inquiry & trial** — A prospective student visits the public site,
-   browses courses, asks the AI assistant about violin and other
-   course categories, then reaches out via WeChat to arrange a trial
-   lesson.
-2. **Enrolled learning** — After signing up, the institution authorizes
-   the student to access the Mini Program, where they manage lessons,
-   bookings, and reminders.
+1. **咨询与试听** —— 意向学员访问公开网站，浏览课程，向 AI 助手询问小提琴
+   及其他课程类别，然后通过微信联系顾问安排试听课。
+2. **在读学习** —— 报名之后，机构授权该学员进入小程序，在其中管理课程、
+   预约与提醒。
 
-Forcing both audiences into a single entry point would either expose
-private student data on a public page, or hide the studio from people
-who are only curious. This project keeps the two flows separate while
-sharing the same brand and the same course knowledge base.
+如果把两类使用者强行塞进同一个入口，要么会在公开页面上暴露学员隐私数据，
+要么会把工作室对仅仅好奇的人隐藏起来。本项目让两条流程彼此分离，
+同时共用同一套品牌形象与同一份课程知识库。
 
-The public demo uses anonymized / sample data to protect instructor and
-student privacy. No real teacher background, pricing, schedule, or
-student record is exposed.
+公开演示使用匿名化 / 示例数据，以保护老师与学员的隐私。不暴露任何真实的
+老师背景、价格、课表或学员记录。
 
 ---
 
-## Key Features
+## 核心功能
 
-- **Responsive public website** — single-file HTML/CSS/JS, no build step
-- **Violin course** as the current primary implementation, with a
-  **modular course structure** ready for additional course categories
-  such as piano and visual arts
-- **Teacher profiles** with intentionally anonymized display names and
-  stock music-scene imagery (no real portraits or credentials exposed)
-- **Trial lesson inquiry** via WeChat consultant
-- **AI Course Assistant** embedded as a chat widget on every page
-- **Local keyword fallback** so the assistant is never empty when the
-  upstream LLM is unavailable
-- **Authorized WeChat Mini Program** with cloud functions for lessons,
-  bookings, cancellations, and reminder scheduling
-- **Privacy-conscious demo data** — no real names, phone numbers, or
-  records of any kind
+- **响应式公开网站** —— 单文件 HTML/CSS/JS，无构建步骤
+- **小提琴课程**为当前主实现，并采用**模块化课程结构**，可扩展接入
+  钢琴、视觉艺术等更多课程类别
+- **老师介绍页**，展示名经过刻意匿名化，配图使用通用音乐场景素材
+  （不暴露真实肖像与资质信息）
+- **试听预约**，通过微信课程顾问对接
+- **AI 课程助手**以内嵌聊天组件的形式出现在每个页面
+- **本地关键词兜底**，上游 LLM 不可用时助手也不会没有回复
+- **需授权的微信小程序**，配套云函数支持课程、预约、取消与提醒调度
+- **注重隐私的演示数据** —— 不含任何真实姓名、手机号或记录
 
 ---
 
-## AI Course Assistant
+## AI 课程助手
 
-The assistant answers course-related questions (curriculum, age
-recommendations, trial flow, etc.) while refusing to fabricate
-sensitive information (teacher background, exact price, schedule,
-private contact details).
+助手回答课程相关问题（课程体系、适合年龄、试听流程等），
+同时拒绝编造敏感信息（老师背景、确切价格、课表、私人联系方式）。
 
-**Request flow:**
+**请求链路：**
 
 ```
-Browser
+浏览器
   └─> POST /api/chat
         └─> api/chat.js  (Node.js Serverless Function)
-              └─> OpenRouter (OpenAI-compatible API)
+              └─> OpenRouter (OpenAI 兼容 API)
                     └─> google/gemini-2.5-flash-lite
-                          └─> Response validation / safety filter / fallback
-                                └─> { reply: "..." } back to the browser
+                          └─> 响应校验 / 安全过滤 / 兜底
+                                └─> { reply: "..." } 返回浏览器
 ```
 
-**Key design choices:**
+**关键设计取舍：**
 
-- Uses the official `openai` Node SDK against OpenRouter's
+- 使用官方 `openai` Node SDK，指向 OpenRouter 的
   `https://openrouter.ai/api/v1` base URL
-- Production model is fixed to `google/gemini-2.5-flash-lite` for
-  consistent, reproducible behavior (overridable via `OPENROUTER_MODEL`
-  for local experimentation)
-- API key is read from `OPENROUTER_API_KEY` (environment-variable based
-  secret handling); never logged, never sent to the browser
-- **No chat history is stored** and **no student records are kept** in
-  the AI backend — every request is stateless
-- Response sanitization is covered by the local `test_sanitize.js`
-  regression suite
-- If the upstream call fails, returns empty, or contains unsafe
-  content, the browser falls back to a local keyword matcher — the
-  user is never left without an answer
-- The system prompt explicitly forbids the model from inventing
-  teacher credentials, prices, schedules, or personal information
-- Server logs only `finish_reason`, `model`, and `reply_length` — never
-  the raw reply content or the user message
+- 生产环境模型固定为 `google/gemini-2.5-flash-lite`，以保证行为一致、
+  结果可复现（本地实验时可通过 `OPENROUTER_MODEL` 覆盖）
+- API key 从 `OPENROUTER_API_KEY` 读取（基于环境变量的密钥处理），
+  不写日志，也不会下发到浏览器
+- **不保存任何聊天记录**，AI 后端**不保存任何学员记录** —— 每次请求都是无状态的
+- 响应清洗由本地 `test_sanitize.js` 回归测试覆盖
+- 若上游调用失败、返回空内容或包含不安全内容，浏览器会退回本地关键词匹配 ——
+  用户永远拿得到回复
+- 系统提示词明确禁止模型编造老师资质、价格、课表或个人信息
+- 服务端日志只记录 `finish_reason`、`model` 与 `reply_length` —— 不记录原始回复内容与用户消息
 
 ---
 
-## Privacy & Data Design
+## 隐私与数据设计
 
-- The public demo uses **anonymized / sample data only**
-- **No** student records are stored in the public website (no database,
-  no chat history persisted)
-- The WeChat Mini Program stores data only in the institution's own
-  WeChat CloudBase (Tencent Cloud) — never on a public server
-- The API key is read from environment variables; it is **never**
-  included in client-side code, HTML, or README examples
-- Public-facing teacher profiles use intentionally anonymized display
-  names ("朱老师", "任老师") and stock music-scene imagery; no real
-  portraits or credentials are exposed
+- 公开演示**只使用匿名化 / 示例数据**
+- 公开网站**不保存任何学员记录**（无数据库，不持久化聊天记录）
+- 微信小程序的数据只存放在机构自有的微信云开发（腾讯云）环境里 —— 不落在任何公开服务器上
+- API key 从环境变量读取，**绝不**出现在客户端代码、HTML 或 README 示例中
+- 面向公开访问的老师介绍使用刻意匿名化的展示名（"朱老师"、"任老师"）与通用音乐场景配图，
+  不暴露真实肖像与资质信息
 
 ---
 
-## Tech Stack
+## 技术栈
 
-| Layer | Technologies |
+| 层次 | 技术 |
 |---|---|
-| Public website | HTML, CSS, vanilla JavaScript (no framework, no build step) |
-| Backend API | Node.js, OpenAI Node SDK, OpenRouter |
-| AI model | `google/gemini-2.5-flash-lite` via OpenRouter |
-| Deployment | Vercel Serverless Function (`api/chat.js`); local dev server (`api/dev-server.js`) |
-| WeChat Mini Program | WeChat DevTools, WeChat CloudBase (cloud functions + database) |
+| 公开网站 | HTML、CSS、原生 JavaScript（无框架，无构建步骤） |
+| 后端 API | Node.js、OpenAI Node SDK、OpenRouter |
+| AI 模型 | 经 OpenRouter 调用 `google/gemini-2.5-flash-lite` |
+| 部署 | Vercel Serverless Function（`api/chat.js`）；本地开发服务器（`api/dev-server.js`） |
+| 微信小程序 | 微信开发者工具、微信云开发（云函数 + 数据库） |
 
 ---
 
-## Project Structure
+## 项目结构
 
 ```
 creative-lesson-booking/
 ├── api/
-│   ├── chat.js              # POST /api/chat — OpenRouter backend
-│   └── dev-server.js        # Local dev server (web/ + /api/chat)
-├── web/                     # Public website
+│   ├── chat.js              # POST /api/chat —— OpenRouter 后端
+│   └── dev-server.js        # 本地开发服务器（web/ + /api/chat）
+├── web/                     # 公开网站
 │   ├── index.html
 │   ├── style.css
 │   ├── script.js
-│   ├── ai-assistant.js      # Chat widget + keyword fallback
+│   ├── ai-assistant.js      # 聊天组件 + 关键词兜底
 │   └── assets/
-├── assets/                  # Reserved for shared assets
-├── violin-app/              # WeChat Mini Program (authorized students)
-│   ├── cloudfunctions/      # 13 serverless functions
-│   ├── database/            # Schema documentation
-│   ├── miniprogram/         # Front-end pages (student + teacher)
-│   └── scripts/             # Local seed/clear scripts (no secrets committed)
-├── screenshots/             # Portfolio screenshots (gitignored)
+├── assets/                  # 预留的共享资源目录
+├── violin-app/              # 微信小程序（已授权学员）
+│   ├── cloudfunctions/      # 13 个云函数
+│   ├── database/            # 数据结构说明
+│   ├── miniprogram/         # 前端页面（学员端 + 老师端）
+│   └── scripts/             # 本地种子/清理脚本（不提交任何密钥）
+├── screenshots/             # 作品集截图（已 gitignore）
 ├── package.json
 ├── .env.example
 ├── .gitignore
 └── README.md
 ```
 
-> `node_modules/`, `.env`, `project.private.config.json`, root-level
-> temporary screenshots, and `web-backup-*/` are intentionally not
-> committed.
+> `node_modules/`、`.env`、`project.private.config.json`、根目录下的
+> 临时截图以及 `web-backup-*/` 均有意不提交。
 
 ---
 
-## Local Development
+## 本地开发
 
-### 1. Install dependencies
+### 1. 安装依赖
 
 ```bash
 npm install
 ```
 
-### 2. Configure environment
+### 2. 配置环境变量
 
-Copy `.env.example` to `.env` and fill in your own values:
+把 `.env.example` 复制为 `.env` 并填入自己的值：
 
 ```bash
 cp .env.example .env   # macOS / Linux
@@ -202,94 +175,78 @@ copy .env.example .env # Windows
 
 ```env
 OPENROUTER_API_KEY=your_openrouter_api_key_here
-OPENROUTER_MODEL=google/gemini-2.5-flash-lite   # default for production
+OPENROUTER_MODEL=google/gemini-2.5-flash-lite   # 生产环境默认值
 ```
 
-> Get an API key from <https://openrouter.ai/keys>. Never commit `.env`.
+> 到 <https://openrouter.ai/keys> 获取 API key。切勿提交 `.env`。
 
-### 3. Start the local server
+### 3. 启动本地服务器
 
 ```bash
 node api/dev-server.js
-# or
+# 或者
 npm run dev
 ```
 
-On Windows PowerShell, if `npm` is blocked by the execution policy:
+在 Windows PowerShell 下，如果 `npm` 被执行策略拦截：
 
 ```powershell
-node api\dev-server.js
+node api\\dev-server.js
 ```
 
-### 4. Open the site
+### 4. 打开站点
 
 ```
 http://localhost:3000/
 ```
 
-You should see the AI assistant respond with real LLM output (when the
-upstream is available) and a local fallback reply otherwise.
+此时 AI 助手在上游可用时应返回真实 LLM 输出，不可用时返回本地兜底回复。
 
 ---
 
-## Live Demo
+## 线上演示
 
-The public website is live on Vercel:
+公开网站已部署在 Vercel：
 
-- **Public website (live):** <https://creative-lesson-booking-platform.vercel.app/>
-  — course discovery, AI Course Assistant, trial lesson inquiry.
-- **AI Course Assistant (live):** embedded in the public website via
-  the `POST /api/chat` serverless route; available on every page.
-- **WeChat Mini Program:** intended for authorized enrolled students
-  only (see [Overview](#overview) for the access separation). It is
-  not a public booking entry point and is not linked from the public
-  site.
+- **公开网站（已上线）：** <https://creative-lesson-booking-platform.vercel.app/>
+  —— 课程浏览、AI 课程助手、试听预约。
+- **AI 课程助手（已上线）：** 通过 `POST /api/chat` serverless 路由内嵌在公开网站中，
+  每个页面都可使用。
+- **微信小程序：** 仅面向已授权的在读学员（入口隔离说明见[项目概览](#项目概览)）。
+  它不是公开的预约入口，公开站点也不提供其跳转链接。
 
 ---
 
-## Screenshots
+## 截图
 
-Portfolio screenshots live in `screenshots/` (gitignored). Suggested
-coverage:
+作品集截图放在 `screenshots/`（已 gitignore）。建议覆盖：
 
-- Public landing page
-- AI Course Assistant in action
-- WeChat Mini Program (authorized student view)
-
----
-
-## Optional Future Enhancements
-
-Version 1.0 is shipped and live. The items below are optional, additive
-enhancements that could be explored in later iterations — they are not
-required for the current release to be considered complete.
-
-- **Richer AI knowledge base** for additional course categories (piano,
-  visual arts) as the studio expands its course catalog
-- **Multilingual AI assistant** responses beyond the current Chinese +
-  English coverage
-- **Optional admin workflow** for the studio (no DB dependency, fits the
-  current privacy-first design)
-- **Broader course content** — additional teacher profiles, trial flow
-  refinements, and curated course descriptions
+- 公开落地页
+- AI 课程助手实际对话
+- 微信小程序（已授权学员视角）
 
 ---
 
-## Disclaimer
+## 可选的后续增强
 
-Names, images, and course information in this public demo use
-anonymized or sample data to protect instructor and student privacy.
-Teacher names ("朱老师", "任老师") are intentionally anonymized display
-names, and the imagery used on the public site is stock music-scene
-photography rather than portraits of real instructors.
+版本 1.0 已交付并上线。下面这些是可选的、增量式的增强方向，
+可以在后续迭代中探索 —— 当前版本已算完整，并不依赖它们。
+
+- 为更多课程类别（钢琴、视觉艺术）建立**更丰富的 AI 知识库**，配合工作室课程目录扩充
+- **多语言 AI 助手**回复，在当前中文 + 英文之外扩展
+- 工作室的**可选管理工作流**（不引入数据库依赖，契合当前的隐私优先设计）
+- **更丰富的课程内容** —— 更多老师介绍、试听流程细化、精选课程描述
 
 ---
 
-### 关于中文项目名
+## 免责声明
 
-琴小助 / Creative Lesson Booking Platform 是一个面向音乐与美术兴趣
-课程的预约与学生管理作品集，当前主实现为小提琴课程，平台架构本
-身为多类别、可扩展设计，支持后续接入钢琴、视觉艺术等更多课程类
-别。公开网页负责课程展示、老师介绍、AI 课程咨询与试听预约；微
-信小程序仅向已正式报名、由机构授权的学生开放。公开展示内容均使
-用匿名化或示例信息，以保护老师与学生的隐私。
+本公开演示中的姓名、图片与课程信息均使用匿名化或示例数据，
+以保护讲师与学员隐私。老师姓名（"朱老师"、"任老师"）是刻意匿名化的展示名，
+公开站点使用的图片是通用音乐场景摄影，而非真实讲师的肖像。
+
+---
+
+## AI 辅助说明
+
+编码工作使用了 AI 辅助。
